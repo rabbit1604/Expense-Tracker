@@ -2,32 +2,37 @@ let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
 let chart;
 
 function addTransaction() {
-    const amount = parseFloat(document.getElementById("amount").value);
+    const amountInput = document.getElementById("amount").value;
+    const amount = parseFloat(amountInput);
     const type = document.getElementById("type").value;
     const category = document.getElementById("category").value.trim();
     const subcategory = document.getElementById("subcategory").value.trim();
 
-    if (!amount) return;
+    // Validate amount properly
+    if (isNaN(amount) || amount <= 0) {
+        alert("Please enter a valid amount 💗");
+        return;
+    }
 
     // Only require category for expense
-    if (type === "expense" && !category) {
+    if (type === "expense" && category === "") {
         alert("Please enter a category for expense 💗");
         return;
     }
 
     const transaction = {
         id: Date.now(),
-        amount,
-        type,
-        category: type === "income" ? "Income" : category,
-        subcategory: subcategory || ""
+        amount: amount,
+        type: type,
+        category: type === "expense" ? category : null,
+        subcategory: type === "expense" ? subcategory : null
     };
 
     transactions.push(transaction);
     saveData();
     render();
 
-    // Clear inputs
+    // Clear fields after adding
     document.getElementById("amount").value = "";
     document.getElementById("category").value = "";
     document.getElementById("subcategory").value = "";
@@ -47,28 +52,46 @@ function render() {
 
     const categoryTotals = {};
 
-transactions.forEach(t => {
+    transactions.forEach(t => {
 
-    if (t.type === "income") {
-        income += t.amount;
-    } else {
-        expense += t.amount;
+        if (t.type === "income") {
+            income += t.amount;
+        } else {
+            expense += t.amount;
 
-        // Only expenses go into chart
-        if (!categoryTotals[t.category]) {
-            categoryTotals[t.category] = 0;
+            if (!categoryTotals[t.category]) {
+                categoryTotals[t.category] = 0;
+            }
+            categoryTotals[t.category] += t.amount;
         }
-        categoryTotals[t.category] += t.amount;
-    }
 
-    const div = document.createElement("div");
-    div.className = "transaction-item";
-    div.innerHTML = `
-        <span>${t.type === "income" ? "💰 Income" : t.category + " - " + t.subcategory}</span>
-        <span>${t.type === "income" ? "+" : "-"} ₹${t.amount}</span>
-    `;
-    list.appendChild(div);
-});
+        const div = document.createElement("div");
+        div.className = "transaction-item";
+
+        div.innerHTML = `
+            <span>
+                ${t.type === "income"
+                    ? "💰 Income"
+                    : t.category + (t.subcategory ? " - " + t.subcategory : "")
+                }
+            </span>
+            <span style="color:${t.type === "income" ? "#2ecc71" : "#e74c3c"}">
+                ${t.type === "income" ? "+" : "-"} ₹${t.amount}
+            </span>
+        `;
+
+        list.appendChild(div);
+    });
+
+    const balance = income - expense;
+
+    document.getElementById("income").textContent = income;
+    document.getElementById("expense").textContent = expense;
+    document.getElementById("balance").textContent = balance;
+
+    renderChart(categoryTotals);
+    calculateSavings();
+}
 
 
 function renderChart(data) {
