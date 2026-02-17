@@ -1,20 +1,20 @@
 let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
-let chart;
+let chart = null;
 
+/* =========================
+   ADD TRANSACTION
+========================= */
 function addTransaction() {
-    const amountInput = document.getElementById("amount").value;
-    const amount = parseFloat(amountInput);
+    const amount = parseFloat(document.getElementById("amount").value);
     const type = document.getElementById("type").value;
     const category = document.getElementById("category").value.trim();
     const subcategory = document.getElementById("subcategory").value.trim();
 
-    // Validate amount properly
     if (isNaN(amount) || amount <= 0) {
         alert("Please enter a valid amount 💗");
         return;
     }
 
-    // Only require category for expense
     if (type === "expense" && category === "") {
         alert("Please enter a category for expense 💗");
         return;
@@ -22,8 +22,8 @@ function addTransaction() {
 
     const transaction = {
         id: Date.now(),
-        amount: amount,
-        type: type,
+        amount,
+        type,
         category: type === "expense" ? category : null,
         subcategory: type === "expense" ? subcategory : null
     };
@@ -32,17 +32,21 @@ function addTransaction() {
     saveData();
     render();
 
-    // Clear fields after adding
     document.getElementById("amount").value = "";
     document.getElementById("category").value = "";
     document.getElementById("subcategory").value = "";
 }
 
-
+/* =========================
+   SAVE DATA
+========================= */
 function saveData() {
     localStorage.setItem("transactions", JSON.stringify(transactions));
 }
 
+/* =========================
+   RENDER UI
+========================= */
 function render() {
     let income = 0;
     let expense = 0;
@@ -53,7 +57,6 @@ function render() {
     const categoryTotals = {};
 
     transactions.forEach(t => {
-
         if (t.type === "income") {
             income += t.amount;
         } else {
@@ -90,14 +93,17 @@ function render() {
     document.getElementById("balance").textContent = balance;
 
     renderChart(categoryTotals);
-    calculateSavings();
 }
 
-
+/* =========================
+   RENDER CHART
+========================= */
 function renderChart(data) {
     const ctx = document.getElementById("expenseChart");
 
-    if (chart) chart.destroy();
+    if (chart) {
+        chart.destroy();
+    }
 
     chart = new Chart(ctx, {
         type: "pie",
@@ -117,51 +123,10 @@ function renderChart(data) {
     });
 }
 
-function updateSavings() {
-    const goal = parseFloat(document.getElementById("goalAmount").value);
-    const saved = parseFloat(document.getElementById("savedAmount").value);
-
-    if (!goal || !saved) return;
-
-    const percent = Math.min((saved / goal) * 100, 100);
-
-    document.getElementById("progressFill").style.width = percent + "%";
-
-    const message = percent >= 100 
-        ? "You did it! 🌸 So proud of you!"
-        : percent >= 70
-        ? "Almost there! Keep going!✨"
-        : "Slow progress is still progress 💗";
-
-    document.getElementById("savingsMessage").textContent = message;
-}
-
-render();
-function clearAllData() {
-    const confirmReset = confirm(
-        "Are you sure you want to clear all data? This cannot be undone"
-    );
-
-    if (!confirmReset) return;
-
-    // Clear transactions array
-    transactions = [];
-
-    // Clear localStorage
-    localStorage.removeItem("transactions");
-
-    // Reset savings fields
-    document.getElementById("goalAmount").value = "";
-    document.getElementById("savedAmount").value = "";
-    document.getElementById("progressFill").style.width = "0%";
-    document.getElementById("savingsMessage").textContent = "";
-
-    // Destroy chart if exists
-    if (chart) {
-        chart.destroy();
-    }
+/* =========================
+   FINALIZE SAVINGS (MANUAL BUTTON)
+========================= */
 function finalizeSavings() {
-
     const salary = parseFloat(document.getElementById("salaryAmount").value);
     const goal = parseFloat(document.getElementById("goalAmount").value);
 
@@ -185,7 +150,6 @@ function finalizeSavings() {
 
     const remaining = salary - totalExpense;
 
-    // Update UI
     document.getElementById("remainingSavings").textContent = remaining;
     document.getElementById("displayGoal").textContent = goal;
 
@@ -198,23 +162,45 @@ function finalizeSavings() {
         message = "You absolutely crushed your savings goal! 🎉";
     } 
     else if (remaining > 0) {
-        message = "Not bad at all — you're building awareness 💗";
+        message = "Not bad — you're improving 💗";
     } 
     else {
-        message = "Overspent this time. Reset, refocus, glow up next month ✨";
+        message = "Overspent this time. Reset and try again ✨";
     }
 
     document.getElementById("savingsMessage").textContent = message;
 }
 
-document.getElementById("salaryAmount")
-    .addEventListener("input", calculateSavings);
+/* =========================
+   CLEAR ALL DATA
+========================= */
+function clearAllData() {
+    const confirmReset = confirm(
+        "Are you sure you want to clear all data? This cannot be undone."
+    );
 
-document.getElementById("goalAmount")
-    .addEventListener("input", calculateSavings);
+    if (!confirmReset) return;
 
-    // Re-render UI
+    transactions = [];
+    localStorage.removeItem("transactions");
+
+    document.getElementById("salaryAmount").value = "";
+    document.getElementById("goalAmount").value = "";
+    document.getElementById("remainingSavings").textContent = "0";
+    document.getElementById("displayGoal").textContent = "0";
+    document.getElementById("progressFill").style.width = "0%";
+    document.getElementById("savingsMessage").textContent = "";
+
+    if (chart) {
+        chart.destroy();
+        chart = null;
+    }
+
     render();
-
-
 }
+
+/* =========================
+   INITIAL LOAD
+========================= */
+render();
+
