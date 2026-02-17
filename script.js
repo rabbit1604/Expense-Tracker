@@ -161,6 +161,11 @@ function calculateSavings() {
     document.getElementById("savingsMessage").textContent =
         `Remaining Savings: ₹${remaining} — ${message}`;
 }
+document.getElementById("salaryAmount")
+    .addEventListener("input", calculateSavings);
+
+document.getElementById("goalAmount")
+    .addEventListener("input", calculateSavings);
 
     // Re-render UI
     render();
