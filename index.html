@@ -49,30 +49,29 @@
     </div>
 
     <!-- Savings Planner -->
-    <div class="card">
-        <h2>Savings Planner</h2>
+<div class="card">
+    <h2>Savings Planner</h2>
 
-        <label>Goal Amount</label>
-        <input type="number" id="goalAmount">
+    <label>Total Salary</label>
+    <input type="number" id="salaryAmount">
 
-        <label>Time Period</label>
-        <select id="goalPeriod">
-            <option>Daily</option>
-            <option>Weekly</option>
-            <option>Monthly</option>
-        </select>
+    <label>Savings Goal</label>
+    <input type="number" id="goalAmount">
 
-        <label>Amount Saved</label>
-        <input type="number" id="savedAmount">
+    <label>Time Period</label>
+    <select id="goalPeriod">
+        <option>Monthly</option>
+        <option>Weekly</option>
+        <option>Daily</option>
+    </select>
 
-        <button onclick="updateSavings()">Track Savings 🌷</button>
-
-        <div class="progress-bar">
-            <div id="progressFill"></div>
-        </div>
-
-        <p id="savingsMessage"></p>
+    <div class="progress-bar">
+        <div id="progressFill"></div>
     </div>
+
+    <p id="savingsMessage"></p>
+</div>
+
 
     <!-- Transaction List -->
     <div class="card">
