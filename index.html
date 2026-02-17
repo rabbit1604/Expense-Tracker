@@ -39,45 +39,45 @@
         <button onclick="addTransaction()">Add 💌</button>
     </div>
 
-    <!-- Summary -->
+    <!-- Overview -->
     <div class="card">
         <h2>Overview</h2>
-        <p>Balance: ₹<span id="balance">0</span></p>
-        <p>Total Income: ₹<span id="income">0</span></p>
-        <p>Total Expense: ₹<span id="expense">0</span></p>
+        <p><strong>Balance:</strong> ₹<span id="balance">0</span></p>
+        <p><strong>Total Income:</strong> ₹<span id="income">0</span></p>
+        <p><strong>Total Expense:</strong> ₹<span id="expense">0</span></p>
         <canvas id="expenseChart"></canvas>
     </div>
 
     <!-- Savings Planner -->
-<div class="card">
-    <h2>Savings Planner</h2>
+    <div class="card">
+        <h2>Savings Planner</h2>
 
-    <label>Total Salary</label>
-    <input type="number" id="salaryAmount">
+        <label>Total Salary</label>
+        <input type="number" id="salaryAmount">
 
-    <label>Savings Goal</label>
-    <input type="number" id="goalAmount">
+        <label>Savings Goal</label>
+        <input type="number" id="goalAmount">
 
-    <label>Time Period</label>
-    <select id="goalPeriod">
-        <option>Monthly</option>
-        <option>Weekly</option>
-        <option>Daily</option>
-    </select>
-<button onclick="finalizeSavings()" id="finalizeBtn">
-    Finish & Calculate 💗
-</button>
+        <label>Time Period</label>
+        <select id="goalPeriod">
+            <option>Monthly</option>
+            <option>Weekly</option>
+            <option>Daily</option>
+        </select>
 
-    <div class="progress-bar">
-        <div id="progressFill"></div>
+        <button onclick="finalizeSavings()" id="finalizeBtn">
+            Finish & Calculate 💗
+        </button>
+
+        <div class="progress-bar">
+            <div id="progressFill"></div>
+        </div>
+
+        <p><strong>Total Savings:</strong> ₹<span id="remainingSavings">0</span></p>
+        <p><strong>Goal:</strong> ₹<span id="displayGoal">0</span></p>
+
+        <p id="savingsMessage"></p>
     </div>
-<p><strong>Total Savings:</strong> ₹<span id="remainingSavings">0</span></p>
-<p><strong>Goal:</strong> ₹<span id="displayGoal">0</span></p>
-<p id="savingsMessage"></p>
-
-    <p id="savingsMessage"></p>
-</div>
-
 
     <!-- Transaction List -->
     <div class="card">
@@ -85,15 +85,18 @@
         <div id="transactionList"></div>
     </div>
 
-</div>
-<!-- Reset Section -->
-<div class="card reset-card">
-    <h2>Reset Data</h2>
-    <button onclick="clearAllData()" class="reset-btn">
-        Clear All Data 
-    </button>
+    <!-- Reset Section -->
+    <div class="card reset-card">
+        <h2>Reset Data</h2>
+        <button onclick="clearAllData()" class="reset-btn">
+            Clear All Data
+        </button>
+    </div>
+
 </div>
 
 <script src="script.js"></script>
+
 </body>
 </html>
+
