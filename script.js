@@ -160,9 +160,20 @@ function clearAllData() {
     if (chart) {
         chart.destroy();
     }
-function calculateSavings() {
-    const salary = parseFloat(document.getElementById("salaryAmount").value) || 0;
-    const goal = parseFloat(document.getElementById("goalAmount").value) || 0;
+function finalizeSavings() {
+
+    const salary = parseFloat(document.getElementById("salaryAmount").value);
+    const goal = parseFloat(document.getElementById("goalAmount").value);
+
+    if (isNaN(salary) || salary <= 0) {
+        alert("Please enter a valid salary 💗");
+        return;
+    }
+
+    if (isNaN(goal) || goal <= 0) {
+        alert("Please enter a valid savings goal 💗");
+        return;
+    }
 
     let totalExpense = 0;
 
@@ -174,28 +185,23 @@ function calculateSavings() {
 
     const remaining = salary - totalExpense;
 
-    // Update visible fields
+    // Update UI
     document.getElementById("remainingSavings").textContent = remaining;
     document.getElementById("displayGoal").textContent = goal;
 
-    if (salary === 0 || goal === 0) {
-        document.getElementById("progressFill").style.width = "0%";
-        document.getElementById("savingsMessage").textContent = "";
-        return;
-    }
-
     const percent = Math.min((remaining / goal) * 100, 100);
-
     document.getElementById("progressFill").style.width = percent + "%";
 
     let message = "";
 
     if (remaining >= goal) {
-        message = "You smashed your savings goal! 🎉";
-    } else if (remaining > 0) {
-        message = "You're getting there, keep budgeting wisely 💗";
-    } else {
-        message = "Overspent this time — reset and glow up next month ✨";
+        message = "You absolutely crushed your savings goal! 🎉";
+    } 
+    else if (remaining > 0) {
+        message = "Not bad at all — you're building awareness 💗";
+    } 
+    else {
+        message = "Overspent this time. Reset, refocus, glow up next month ✨";
     }
 
     document.getElementById("savingsMessage").textContent = message;
@@ -209,6 +215,6 @@ document.getElementById("goalAmount")
 
     // Re-render UI
     render();
-    calculateSavings();
+
 
 }
