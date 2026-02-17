@@ -128,7 +128,42 @@ function clearAllData() {
     if (chart) {
         chart.destroy();
     }
+function calculateSavings() {
+    const salary = parseFloat(document.getElementById("salaryAmount").value) || 0;
+    const goal = parseFloat(document.getElementById("goalAmount").value) || 0;
+
+    let totalExpense = 0;
+
+    transactions.forEach(t => {
+        if (t.type === "expense") {
+            totalExpense += t.amount;
+        }
+    });
+
+    const remaining = salary - totalExpense;
+
+    if (salary === 0 || goal === 0) return;
+
+    const percent = Math.min((remaining / goal) * 100, 100);
+
+    document.getElementById("progressFill").style.width = percent + "%";
+
+    let message = "";
+
+    if (remaining >= goal) {
+        message = "You did it! 🎉 You reached your savings goal!";
+    } else if (remaining > 0) {
+        message = "You're close! Keep managing wisely 💗";
+    } else {
+        message = "Oops! Overspending happened. No worries, next month glow up ✨";
+    }
+
+    document.getElementById("savingsMessage").textContent =
+        `Remaining Savings: ₹${remaining} — ${message}`;
+}
 
     // Re-render UI
     render();
+    calculateSavings();
+
 }
