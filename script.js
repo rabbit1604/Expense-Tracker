@@ -105,3 +105,30 @@ function updateSavings() {
 }
 
 render();
+function clearAllData() {
+    const confirmReset = confirm(
+        "Are you sure you want to clear all data? This cannot be undone 💔"
+    );
+
+    if (!confirmReset) return;
+
+    // Clear transactions array
+    transactions = [];
+
+    // Clear localStorage
+    localStorage.removeItem("transactions");
+
+    // Reset savings fields
+    document.getElementById("goalAmount").value = "";
+    document.getElementById("savedAmount").value = "";
+    document.getElementById("progressFill").style.width = "0%";
+    document.getElementById("savingsMessage").textContent = "";
+
+    // Destroy chart if exists
+    if (chart) {
+        chart.destroy();
+    }
+
+    // Re-render UI
+    render();
+}
