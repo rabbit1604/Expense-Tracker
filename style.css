@@ -81,3 +81,17 @@ button:hover {
     display: flex;
     justify-content: space-between;
 }
+.reset-card {
+    text-align: center;
+    background: #fff4f8;
+}
+
+.reset-btn {
+    background: #ffcad4;
+    color: #7a3e7f;
+    font-weight: 600;
+}
+
+.reset-btn:hover {
+    background: #ff9eb5;
+}
