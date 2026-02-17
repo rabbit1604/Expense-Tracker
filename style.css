@@ -1,86 +1,161 @@
+/* =========================
+   GLOBAL RESET
+========================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* =========================
+   BODY
+========================= */
 body {
     font-family: 'Quicksand', sans-serif;
-    background: #fdf6f9;
+    background: linear-gradient(135deg, #fdf6f9, #fbe9f2);
     display: flex;
     justify-content: center;
-    padding: 40px;
+    min-height: 100vh;
+    padding: 40px 20px;
 }
 
+/* =========================
+   CONTAINER
+========================= */
 .container {
-    width: 700px;
+    width: 100%;
+    max-width: 720px;
 }
 
+/* =========================
+   HEADINGS
+========================= */
 h1 {
     font-family: 'Playfair Display', serif;
     text-align: center;
     color: #c26dbc;
-}
-
-.card {
-    background: #ffffff;
-    padding: 25px;
-    margin-top: 25px;
-    border-radius: 20px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+    margin-bottom: 10px;
+    font-size: 30px;
 }
 
 h2 {
     color: #a45db6;
+    margin-bottom: 15px;
+    font-size: 18px;
 }
 
+/* =========================
+   CARD DESIGN
+========================= */
+.card {
+    background: #ffffff;
+    padding: 25px;
+    margin-top: 25px;
+    border-radius: 22px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+}
+
+/* =========================
+   LABELS
+========================= */
 label {
-    margin-top: 10px;
+    margin-top: 12px;
     display: block;
+    font-size: 14px;
+    color: #6d4a78;
 }
 
-input, select {
+/* =========================
+   INPUTS
+========================= */
+input,
+select {
     width: 100%;
-    padding: 10px;
-    border-radius: 12px;
+    padding: 12px;
+    border-radius: 14px;
     border: 1px solid #f1d4ea;
-    margin-top: 5px;
+    margin-top: 6px;
     background: #fff8fc;
+    font-size: 14px;
+    transition: 0.2s ease;
 }
 
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #c26dbc;
+    box-shadow: 0 0 0 3px rgba(194, 109, 188, 0.1);
+}
+
+/* =========================
+   BUTTONS
+========================= */
 button {
-    margin-top: 15px;
-    padding: 10px;
-    border-radius: 12px;
+    margin-top: 18px;
+    padding: 12px;
+    border-radius: 16px;
     border: none;
     background: #f7c8e0;
     color: #7a3e7f;
     font-weight: 600;
+    font-size: 14px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.25s ease;
 }
 
 button:hover {
     background: #f3a6d5;
+    transform: translateY(-2px);
 }
 
+/* =========================
+   PROGRESS BAR
+========================= */
 .progress-bar {
     width: 100%;
     height: 20px;
     background: #f1d4ea;
-    border-radius: 10px;
-    margin-top: 15px;
+    border-radius: 12px;
+    margin-top: 18px;
+    overflow: hidden;
 }
 
 #progressFill {
     height: 100%;
     width: 0%;
-    background: #c26dbc;
-    border-radius: 10px;
+    background: linear-gradient(90deg, #c26dbc, #f7c8e0);
+    border-radius: 12px;
+    transition: width 0.4s ease;
 }
 
+/* =========================
+   TRANSACTION LIST
+========================= */
 .transaction-item {
     background: #fff0f7;
-    padding: 10px;
-    border-radius: 12px;
-    margin-top: 10px;
+    padding: 12px 15px;
+    border-radius: 16px;
+    margin-top: 12px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    transition: 0.2s ease;
 }
+
+.transaction-item:hover {
+    transform: translateX(4px);
+    background: #ffe6f3;
+}
+
+/* =========================
+   RESET CARD
+========================= */
 .reset-card {
     text-align: center;
     background: #fff4f8;
@@ -94,4 +169,39 @@ button:hover {
 
 .reset-btn:hover {
     background: #ff9eb5;
+}
+
+/* =========================
+   SAVINGS MESSAGE
+========================= */
+#savingsMessage {
+    margin-top: 12px;
+    font-weight: 600;
+    color: #7a3e7f;
+}
+
+/* =========================
+   OVERVIEW TEXT
+========================= */
+.card p {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #6d4a78;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 600px) {
+    body {
+        padding: 20px 10px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
 }
