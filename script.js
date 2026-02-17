@@ -174,7 +174,15 @@ function calculateSavings() {
 
     const remaining = salary - totalExpense;
 
-    if (salary === 0 || goal === 0) return;
+    // Update visible fields
+    document.getElementById("remainingSavings").textContent = remaining;
+    document.getElementById("displayGoal").textContent = goal;
+
+    if (salary === 0 || goal === 0) {
+        document.getElementById("progressFill").style.width = "0%";
+        document.getElementById("savingsMessage").textContent = "";
+        return;
+    }
 
     const percent = Math.min((remaining / goal) * 100, 100);
 
@@ -183,16 +191,16 @@ function calculateSavings() {
     let message = "";
 
     if (remaining >= goal) {
-        message = "You did it! 🎉 You reached your savings goal!";
+        message = "You smashed your savings goal! 🎉";
     } else if (remaining > 0) {
-        message = "You're close! Keep managing wisely 💗";
+        message = "You're getting there, keep budgeting wisely 💗";
     } else {
-        message = "Oops! Overspending happened. No worries, next month glow up ✨";
+        message = "Overspent this time — reset and glow up next month ✨";
     }
 
-    document.getElementById("savingsMessage").textContent =
-        `Remaining Savings: ₹${remaining} — ${message}`;
+    document.getElementById("savingsMessage").textContent = message;
 }
+
 document.getElementById("salaryAmount")
     .addEventListener("input", calculateSavings);
 
