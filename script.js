@@ -4,23 +4,35 @@ let chart;
 function addTransaction() {
     const amount = parseFloat(document.getElementById("amount").value);
     const type = document.getElementById("type").value;
-    const category = document.getElementById("category").value;
-    const subcategory = document.getElementById("subcategory").value;
+    const category = document.getElementById("category").value.trim();
+    const subcategory = document.getElementById("subcategory").value.trim();
 
-    if (!amount || !category) return;
+    if (!amount) return;
+
+    // Only require category for expense
+    if (type === "expense" && !category) {
+        alert("Please enter a category for expense 💗");
+        return;
+    }
 
     const transaction = {
         id: Date.now(),
         amount,
         type,
-        category,
-        subcategory
+        category: type === "income" ? "Income" : category,
+        subcategory: subcategory || ""
     };
 
     transactions.push(transaction);
     saveData();
     render();
+
+    // Clear inputs
+    document.getElementById("amount").value = "";
+    document.getElementById("category").value = "";
+    document.getElementById("subcategory").value = "";
 }
+
 
 function saveData() {
     localStorage.setItem("transactions", JSON.stringify(transactions));
@@ -35,32 +47,29 @@ function render() {
 
     const categoryTotals = {};
 
-    transactions.forEach(t => {
-        if (t.type === "income") income += t.amount;
-        else expense += t.amount;
+transactions.forEach(t => {
 
+    if (t.type === "income") {
+        income += t.amount;
+    } else {
+        expense += t.amount;
+
+        // Only expenses go into chart
         if (!categoryTotals[t.category]) {
             categoryTotals[t.category] = 0;
         }
-        if (t.type === "expense") {
-            categoryTotals[t.category] += t.amount;
-        }
+        categoryTotals[t.category] += t.amount;
+    }
 
-        const div = document.createElement("div");
-        div.className = "transaction-item";
-        div.innerHTML = `
-            <span>${t.category} - ${t.subcategory}</span>
-            <span>₹${t.amount}</span>
-        `;
-        list.appendChild(div);
-    });
+    const div = document.createElement("div");
+    div.className = "transaction-item";
+    div.innerHTML = `
+        <span>${t.type === "income" ? "💰 Income" : t.category + " - " + t.subcategory}</span>
+        <span>${t.type === "income" ? "+" : "-"} ₹${t.amount}</span>
+    `;
+    list.appendChild(div);
+});
 
-    document.getElementById("balance").textContent = income - expense;
-    document.getElementById("income").textContent = income;
-    document.getElementById("expense").textContent = expense;
-
-    renderChart(categoryTotals);
-}
 
 function renderChart(data) {
     const ctx = document.getElementById("expenseChart");
