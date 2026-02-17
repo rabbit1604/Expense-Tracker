@@ -98,7 +98,7 @@ function updateSavings() {
     const message = percent >= 100 
         ? "You did it! 🌸 So proud of you!"
         : percent >= 70
-        ? "Almost there! Keep glowing ✨"
+        ? "Almost there! Keep going!✨"
         : "Slow progress is still progress 💗";
 
     document.getElementById("savingsMessage").textContent = message;
@@ -107,7 +107,7 @@ function updateSavings() {
 render();
 function clearAllData() {
     const confirmReset = confirm(
-        "Are you sure you want to clear all data? This cannot be undone 💔"
+        "Are you sure you want to clear all data? This cannot be undone"
     );
 
     if (!confirmReset) return;
